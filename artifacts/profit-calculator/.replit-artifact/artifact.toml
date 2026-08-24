@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "US Profit Calculator"
+description = "A responsive web app that helps US sellers estimate product profit, margins, fees, and break-even pricing from simple revenue and cost inputs."
+version = "1.0.0"
+id = "artifacts/profit-calculator"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23775
+
+[services.development]
+run = "pnpm --filter @workspace/profit-calculator run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/profit-calculator", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/profit-calculator/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23775"
+BASE_PATH = "/"
